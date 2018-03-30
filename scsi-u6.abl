@@ -1,0 +1,27 @@
+module scsifloppy
+
+title 'ADDRESS/FUNCTION  DECODER scsi floppy controller
+JOSEPH LANG  24 APR 2017'
+
+	U6	device 'P16V8R';
+
+	clk PIN 1;
+	A2,A3,seop,read,strobe pin 2,3,4,5,6;
+	mhz8,ior,iow,scsics,dack,eop,fdcs pin 19,18,17,16,15,14,13;
+
+	X = .X.;
+
+equations
+
+	mhz8 := !mhz8;
+;
+	!ior = read & strobe;
+	!iow = !read & strobe;
+	!scsics = A3;
+	!dack = A2 & !A3 & strobe;
+	!eop = A2 & !A3 & seop & strobe;
+	!fdcs = !A2 & !A3 & strobe;
+;
+
+
+end scsifloppy
